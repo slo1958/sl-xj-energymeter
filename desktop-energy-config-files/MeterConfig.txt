@@ -78,3 +78,9 @@
 1408 256 /# Orange ends
 1409 256 /# Red starts
 1410 275 /# Red ends
+
+# Data save
+# Include full path or DESKTOP or DOCUMENTS or OFF (data not saved)
+900 DESKTOP
+
+
