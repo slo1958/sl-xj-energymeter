@@ -1,0 +1,24 @@
+# Use ## for comments at end of config statement
+
+# Url telegram
+01 http://192.168.3.64/api/v2/sm/telegram
+
+# Analog meter config selector (should be 100, 200, ...)
+10 300
+
+# Analog Meter  config 1xx
+111 &h00EEEEEE ## Tick color
+112 &h00030303 ## Background color
+113 &h00CC0000 ## Needle color
+
+# Analog Meter config 2xx
+211 &h000A60EF ## Tick color
+212 &h00030303 ## Background color
+213 &h00CC0000 ## Needle color
+
+# Analog Meter config 3xx
+311 &h00030303 ## Tick color
+312 &h00EEEEEE ## Background color
+313 &h00CC0000 ## Needle color
+ 
+
