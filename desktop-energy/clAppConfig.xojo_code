@@ -33,6 +33,28 @@ Protected Class clAppConfig
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function GetDBFilePath() As FolderItem
+		  if self.DBFilePath.Length = 0 then
+		    return SpecialFolder.Desktop
+		    
+		  elseif self.DBFilePath.Uppercase = "OFF" then
+		    return nil
+		    
+		  elseif self.DBFilePath.Uppercase="DESKTOP" then
+		    return SpecialFolder.Desktop
+		    
+		  elseif self.DBFilePath.Uppercase="DOCUMENTS" then
+		    return SpecialFolder.Documents
+		    
+		  else
+		    return new FolderItem(self.DBFilePath)
+		    
+		  end if
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function GetMeterIPAddress() As string
 		  Return IPAddress
 		End Function
@@ -189,6 +211,8 @@ Protected Class clAppConfig
 		        case 401 + voltageMeterConfig to 499+voltageMeterConfig
 		          self.voltageMeters.SetValue(idx - voltageMeterConfig - 400, value)
 		          
+		        case 900
+		          self.DBFilePath = value.Trim
 		          
 		        case else
 		          System.DebugLog("Cannot process [" + s + "]")
@@ -297,6 +321,10 @@ Protected Class clAppConfig
 
 	#tag Property, Flags = &h21
 		Private ConnectionMode As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private DBFilePath As string
 	#tag EndProperty
 
 	#tag Property, Flags = &h1

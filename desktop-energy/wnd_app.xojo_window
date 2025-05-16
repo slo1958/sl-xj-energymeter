@@ -34,7 +34,7 @@ Begin DesktopWindow wnd_app
       Scope           =   0
       TabPanelIndex   =   0
    End
-   Begin MeterCanvas MeterCanvas0
+   Begin MeterCanvas MeterFromNetworkTarif1
       AllowAutoDeactivate=   True
       AllowFocus      =   False
       AllowFocusRing  =   True
@@ -59,7 +59,7 @@ Begin DesktopWindow wnd_app
       Visible         =   True
       Width           =   156
    End
-   Begin MeterCanvas MeterCanvas1
+   Begin MeterCanvas MeterFromNetworkTarif2
       AllowAutoDeactivate=   True
       AllowFocus      =   False
       AllowFocusRing  =   True
@@ -84,7 +84,7 @@ Begin DesktopWindow wnd_app
       Visible         =   True
       Width           =   156
    End
-   Begin MeterCanvas MeterCanvas2
+   Begin MeterCanvas MeterToNetworkTarif1
       AllowAutoDeactivate=   True
       AllowFocus      =   False
       AllowFocusRing  =   True
@@ -109,7 +109,7 @@ Begin DesktopWindow wnd_app
       Visible         =   True
       Width           =   156
    End
-   Begin MeterCanvas MeterCanvas3
+   Begin MeterCanvas MeterToNetworkTarif2
       AllowAutoDeactivate=   True
       AllowFocus      =   False
       AllowFocusRing  =   True
@@ -556,6 +556,7 @@ Begin DesktopWindow wnd_app
       TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
+      TickLabelFormat =   ""
       Tooltip         =   ""
       Top             =   348
       Transparent     =   False
@@ -582,6 +583,7 @@ Begin DesktopWindow wnd_app
       TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
+      TickLabelFormat =   ""
       Tooltip         =   ""
       Top             =   348
       Transparent     =   False
@@ -608,6 +610,7 @@ Begin DesktopWindow wnd_app
       TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
+      TickLabelFormat =   ""
       Tooltip         =   ""
       Top             =   348
       Transparent     =   False
@@ -1028,7 +1031,7 @@ End
 		  redNumbers.DigitBackColor = &cCC0000
 		  redNumbers.PrepareTemplate
 		  
-		  for each c as MeterCanvas in array(MeterCanvas0, MeterCanvas1, MeterCanvas2, MeterCanvas3, MeterCanvas4, MeterCanvas5)
+		  for each c as MeterCanvas in array(MeterFromNetworkTarif1, MeterFromNetworkTarif2, MeterToNetworkTarif1, MeterToNetworkTarif2, MeterCanvas4, MeterCanvas5)
 		    c.Configure(blackNumbers, redNumbers, "00000.00")
 		    
 		  next
@@ -1105,6 +1108,8 @@ End
 		  self.lastError = "" 
 		  
 		  CanvasLedCommStatus.SetLight(1)
+		  
+		  SaveData
 		  
 		  UpdateUserInterface
 		  
@@ -1193,6 +1198,95 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub SaveData()
+		  if self.lastTelegram = nil then Return
+		  
+		  if app.config.GetDBFilePath = nil then Return
+		  
+		  var f as FolderItem = app.config.GetDBFilePath
+		  
+		  var h() as string
+		  var m() as string
+		  var d as new Dictionary
+		  
+		  h.Add("DateTime")
+		  h.Add("PowerFromNetworkTarif1")
+		  h.Add("PowerFromNetworkTarif2")
+		  
+		  h.Add("PowerToNetworkTarif1")
+		  h.Add("PowertoNetworkTarif2")
+		  
+		  h.Add("PowerFromNetworkPhase1")
+		  h.Add("PowerFromNetworkPhase2")
+		  h.Add("PowerFromNetworkPhase3")
+		  
+		  h.Add("PowerToNetworkPhase1")
+		  h.Add("PowerToNetworkPhase2")
+		  h.Add("PowerToNetworkPhase3")
+		  
+		  h.Add("VoltagePhase1")
+		  h.Add("VoltagePhase2")
+		  h.Add("VoltagePhase3")
+		  
+		  h.Add("Tarif")
+		  
+		  if not f.exists then Return
+		  
+		  if f.IsFolder then
+		    f = f.Child("MeterData.tsv")
+		    
+		  end if
+		  
+		  var tout as TextOutputStream
+		  
+		  if not f.Exists then
+		    tout = TextOutputStream.Create(f)
+		    tout.WriteLine(string.FromArray(h,chr(9)))
+		    tout.close
+		    
+		  end if
+		  
+		  
+		  tout = TextOutputStream.Open(f)
+		  
+		  d.value("DateTime") = DateTime.Now.SQLDateTime
+		  d.value("PowerFromNetworkTarif1") = format(self.lastTelegram.GetCounterValue("1.8.1")*1000, "########0")
+		  d.value("PowerFromNetworkTarif2") = format(self.lastTelegram.GetCounterValue("1.8.2")*1000, "########0")
+		  
+		  d.value("PowerToNetworkTarif1") = format(self.lastTelegram.GetCounterValue("2.8.1")*1000, "########0")
+		  d.value("PowertoNetworkTarif2") =  format(self.lastTelegram.GetCounterValue("2.8.2")*1000, "########0")
+		  
+		  d.value("PowerFromNetworkPhase1") =  format(self.lastTelegram.GetCounterValue("21.7.0") *1000, "########0")
+		  d.value("PowerFromNetworkPhase2") =  format(self.lastTelegram.GetCounterValue("41.7.0") *1000, "########0")
+		  d.value("PowerFromNetworkPhase3") =  format(self.lastTelegram.GetCounterValue("61.7.0") *1000, "########0")
+		  
+		  d.value("PowerToNetworkPhase1") = format(self.lastTelegram.GetCounterValue("22.7.0")*1000, "########0")
+		  d.value("PowerToNetworkPhase2") = format(self.lastTelegram.GetCounterValue("42.7.0")*1000, "########0")
+		  d.value("PowerToNetworkPhase3") = format(self.lastTelegram.GetCounterValue("62.7.0")*1000, "########0")
+		  
+		  d.value("VoltagePhase1") = format(self.lastTelegram.GetCounterValue("32.7.0"),"000.0")
+		  d.value("VoltagePhase2") = format(self.lastTelegram.GetCounterValue("52.7.0"),"000.0")
+		  d.value("VoltagePhase3") = format(self.lastTelegram.GetCounterValue("72.7.0"),"000.0")
+		  
+		  d.value("Tarif") = self.lastTelegram.GetCounterRawValue("96.14.0")
+		  
+		  m.RemoveAll
+		  for each headeritem as string in h
+		    m.Add(d.value(headeritem))
+		    
+		  next
+		  
+		  tout.WriteLine(string.FromArray(m, chr(9))) 
+		  
+		  tout.close
+		  
+		  return
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub UpdateRefreshProcess()
 		  if self.RequestStatus < 0 then
 		    UpdateTimer.RunMode = Timer.RunModes.Off
@@ -1236,13 +1330,14 @@ End
 		  self.lbl_message.Text = "Datagram received."
 		  
 		  var tempScale as double
+		  
 		  // Basic metering: power taken from the network
-		  MeterCanvas0.UpdateNumber(self.lastTelegram.GetCounterValue("1.8.1"))
-		  MeterCanvas1.UpdateNumber(self.lastTelegram.GetCounterValue("1.8.2"))
+		  MeterFromNetworkTarif1.UpdateNumber(self.lastTelegram.GetCounterValue("1.8.1"))
+		  MeterFromNetworkTarif2.UpdateNumber(self.lastTelegram.GetCounterValue("1.8.2"))
 		  
 		  // Basic metering: power sent to the network
-		  MeterCanvas2.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.1"))
-		  MeterCanvas3.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.2"))
+		  MeterToNetworkTarif1.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.1"))
+		  MeterToNetworkTarif2.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.2"))
 		  
 		  MeterCanvas4.UpdateNumber(self.lastTelegram.GetCounterValue("1.8.1") + self.lastTelegram.GetCounterValue("1.8.2")) 
 		  MeterCanvas5.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.1") + self.lastTelegram.GetCounterValue("2.8.2"))
