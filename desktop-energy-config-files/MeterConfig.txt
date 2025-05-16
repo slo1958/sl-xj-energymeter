@@ -1,24 +1,80 @@
-# Use ## for comments at end of config statement
+# Use /# for comments at end of config statement
 
-# Url telegram
-01 http://192.168.3.64/api/v2/sm/telegram
+# Connect to via http or using a TCPSocket
+01 http://192.168.3.64/api/v2/sm/telegram /# url for connection via HTTP
+21 192.168.3.64 /# IP address for connection via tcp socket
+22 82 /# port number
+23 tcp /# TCP or HTTP
 
-# Analog meter config selector (should be 100, 200, ...)
-10 300
+# Time out delay (seconds)
+02 15
 
-# Analog Meter  config 1xx
-111 &h00EEEEEE ## Tick color
-112 &h00030303 ## Background color
-113 &h00CC0000 ## Needle color
+# Update period (seconds)
+03 5
 
-# Analog Meter config 2xx
-211 &h000A60EF ## Tick color
-212 &h00030303 ## Background color
-213 &h00CC0000 ## Needle color
+# Resume polling delay (seconds)
+04 60
 
-# Analog Meter config 3xx
-311 &h00030303 ## Tick color
-312 &h00EEEEEE ## Background color
-313 &h00CC0000 ## Needle color
+
+# 
+# Analog meter config selector (should be 1000, 2000, ...)
+100 3000
+
+# Analog Meter  config 1xxx
+1101 &h00EEEEEE /# Tick color
+1102 &h00030303 /# Background color
+1103 &h00CC0000 /# Needle color
+
+# Analog Meter config 2xxx
+2101 &h000A60EF /# Tick color
+2102 &h00030303 /# Background color
+2103 &h00CC0000 /# Needle color
+
+# Analog Meter config 3xxx
+3101 &h00030303 /# Tick color
+3102 &h00EEEEEE /# Background color
+3103 &h00CC0000 /# Needle color
  
+# Power meter (from network) config selector (should be 1000, 2000, ...)
+200 2000
 
+# Power meter (from network) config 1xxx
+1201 0 /# Power meter (from network) min value
+1202 8000 /# Power  meter (from network) max value
+1203 2000 /# Power  meter (from network) major ticks
+1204 500 /# Power  meter (from network) minor ticks
+1205 1 /# Power  meter (from network) scale factor (1, 1000)
+1206 ###0 /# Format for the labels
+
+
+# Power meter (from network) config 2xxx
+2201 0 /# Power meter (from network) min value
+2202 8 /# Power  meter (from network) max value
+2203 4 /# Power  meter (from network) major ticks
+2204 1 /# Power  meter (from network) minor ticks
+2205 1000 /# Power  meter (from network) scale factor (1, 1000)
+2206 ###0.0 /# Format for the labels
+
+# Power  meter (To network) config selector (should be 1000, 2000, ...)
+300 1000
+
+1301 0 /# Power meter (To network) min value
+1302 6000 /# Power meter (To network) max value
+1303 2000 /# Power meter (To network) major ticks
+1304 500 /# Power meter (To network) minor ticks
+1305 1 /# Power meter (To network) scale factor (1, 1000)
+1306 ###0 /# Format for the labels
+
+# Voltage meter config selector (should be 1000, 2000, ...)
+400 1000
+
+1401 200 /# Voltage meter min value
+1402 275 /# Voltage meter max value
+1403 25 /# Voltage meter major ticks
+1404 5 /# Voltage meter minor ticks
+1405 1 /# Voltage meter scale factor (always 1)
+1406 ##0 /# Format for the labels
+1407 235 /# Orange starts
+1408 256 /# Orange ends
+1409 256 /# Red starts
+1410 275 /# Red ends
