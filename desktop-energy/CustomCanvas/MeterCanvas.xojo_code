@@ -13,11 +13,16 @@ Implements itfAnimate
 		  var tempOffset  as Double 
 		  var horizOffset as Double = (CountMainDigits + CountDecimalDigits - 1) * w
 		  
+		  
+		  // Draw digits from left to right
+		  
 		  for i as integer = 0 to DigitsVerticalOffset.LastIndex
 		    
 		    tempOffset = totalVerticalOffset(i)
 		    
-		    if i < CountDecimalDigits then
+		    var ShowDecimalPart as Boolean =  i < CountDecimalDigits
+		    
+		    if ShowDecimalPart then
 		      g.DrawPicture(self.decimalDigitTemplate.NumberTemplate, horizOffset,-tempOffset, w, tempOffset+h)
 		      
 		    else
@@ -29,6 +34,8 @@ Implements itfAnimate
 		    
 		  next
 		  
+		  
+		  // Draw shading
 		  
 		  var picwidth as double = (CountMainDigits + CountDecimalDigits) * w
 		  
@@ -86,9 +93,11 @@ Implements itfAnimate
 		  
 		  if  self.CounterDirection > 0 then // should increase
 		    
-		    if totalVerticalOffset(0) >= MainDigitTemplate.DigitHeight * 10 - 5 then
+		    if totalVerticalOffset(0) >= MainDigitTemplate.DigitHeight * 10 - 1 then // - 5 then # 2025-05-17
 		      PixelVerticalOffset = totalVerticalOffset(0) - MainDigitTemplate.DigitHeight * 10 + pixelStep
 		      DigitsVerticalOffset(0) = 0
+		      
+		      
 		      doneUpdateDigits = False
 		      digitIndex = 1
 		      
@@ -204,6 +213,7 @@ Implements itfAnimate
 		    temp = DigitsVerticalOffset(0) 
 		    
 		  elseif self.CounterDirection < 0 then
+		    
 		    if PixelVerticalOffset < 2 then
 		      temp = DigitsVerticalOffset(0) 
 		      
@@ -288,6 +298,7 @@ Implements itfAnimate
 		    return DigitsVerticalOffset(digitNumber) * MainDigitTemplate.DigitHeight 
 		    
 		  end if
+		  
 		End Function
 	#tag EndMethod
 
@@ -300,7 +311,7 @@ Implements itfAnimate
 		  
 		  self.TargetNumber = round(d*NumberScaleFactor)/NumberScaleFactor
 		  
-		  // if current number is zero, we jump to the target
+		  // if current (displayed) number is zero, we jump to the target
 		  // otherwise, we calculate the number of pixel shifts we need
 		  // Update period tells us how many second before next update
 		  // 
@@ -327,9 +338,9 @@ Implements itfAnimate
 		  
 		  var totalPixelShifts as Double = (self.TargetNumber - self.DisplayedNumber) * NumberScaleFactor * MainDigitTemplate.DigitHeight
 		  
-		  var tempNumberOfCallsToUpdate as Double = app.config.GetUpdatePeriodSeconds * AnimateCallFrequency
+		  var tempNumberOfCallsToAnimate as Double = app.config.GetUpdatePeriodSeconds * AnimateCallFrequency
 		  
-		  self.PixelUpdateEachAnimate   = abs( totalPixelShifts / tempNumberOfCallsToUpdate)
+		  self.PixelUpdateEachAnimate   = abs( totalPixelShifts / tempNumberOfCallsToAnimate)
 		  
 		  self.CounterDirection = sign( self.TargetNumber - self.DisplayedNumber)
 		  
