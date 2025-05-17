@@ -159,7 +159,7 @@ Implements itfAnimate
 		  end if
 		  
 		  
-		  if self.PixelUpdateEachAnimate <= 0 then // Display number without anumation
+		  if self.PixelUpdateEachAnimate <= 0 then // Display number without animation
 		    
 		    Return
 		  end if
@@ -183,6 +183,7 @@ Implements itfAnimate
 		  end if
 		  
 		  self.SetNumberFormat(format)
+		  
 		  
 		  Return
 		  
@@ -304,12 +305,13 @@ Implements itfAnimate
 		  // Update period tells us how many second before next update
 		  // 
 		  
+		  
 		  if self.DisplayedNumber <= 0 then 
 		    var tmp as string = format(d, NumberFormat).Replace(",","").Replace(".","")
 		    var index as integer = DigitsVerticalOffset.LastIndex
 		    
 		    for each s as string in tmp.Characters
-		      DigitsVerticalOffset(index) = s.ToInteger
+		      if index >= 0 then DigitsVerticalOffset(index) = s.ToInteger
 		      
 		      index = index - 1
 		    next

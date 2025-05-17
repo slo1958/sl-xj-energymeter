@@ -19,12 +19,19 @@ Inherits DesktopApplication
 		  
 		  var tmp as string = DateTime.Now.SQLDateTime
 		  
-		  var f as FolderItem = SpecialFolder.Desktop
-		  var t as TextOutputStream = TextOutputStream.Open(f.Child("MeterTrackingLog.txt"))
-		  t.WriteLine(tmp+" "+Message)
-		  t.Close
+		  try
+		    var f as FolderItem = SpecialFolder.Desktop
+		    
+		    var t as TextOutputStream = TextOutputStream.Open(f.Child("MeterTrackingLog.txt"))
+		    t.WriteLine(tmp+" "+Message)
+		    t.Close
+		    
+		    
+		  catch e as RuntimeException
+		    MessageBox("Cannot write to log file [" + e.Message + "]")
+		    
+		  end try
 		  
-		   
 		End Sub
 	#tag EndMethod
 

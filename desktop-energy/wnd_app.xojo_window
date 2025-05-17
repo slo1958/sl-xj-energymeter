@@ -617,7 +617,7 @@ Begin DesktopWindow wnd_app
       Visible         =   True
       Width           =   200
    End
-   Begin MeterCanvas MeterCanvas4
+   Begin MeterCanvas MeterFromNetworkTotal
       AllowAutoDeactivate=   True
       AllowFocus      =   False
       AllowFocusRing  =   True
@@ -642,7 +642,7 @@ Begin DesktopWindow wnd_app
       Visible         =   True
       Width           =   156
    End
-   Begin MeterCanvas MeterCanvas5
+   Begin MeterCanvas MeterToNetworkTotal
       AllowAutoDeactivate=   True
       AllowFocus      =   False
       AllowFocusRing  =   True
@@ -1018,6 +1018,145 @@ Begin DesktopWindow wnd_app
       Visible         =   True
       Width           =   114
    End
+   Begin MeterCanvas MeterBalanceTarif1
+      AllowAutoDeactivate=   True
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      Enabled         =   True
+      Height          =   35
+      Index           =   -2147483648
+      Left            =   570
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   34
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   39
+      Transparent     =   False
+      Visible         =   True
+      Width           =   156
+   End
+   Begin MeterCanvas MeterBalanceTarif2
+      AllowAutoDeactivate=   True
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      Enabled         =   True
+      Height          =   35
+      Index           =   -2147483648
+      Left            =   570
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   35
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   78
+      Transparent     =   False
+      Visible         =   True
+      Width           =   156
+   End
+   Begin MeterCanvas MeterBalanceTotal
+      AllowAutoDeactivate=   True
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      Enabled         =   True
+      Height          =   35
+      Index           =   -2147483648
+      Left            =   570
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   36
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   117
+      Transparent     =   False
+      Visible         =   True
+      Width           =   156
+   End
+   Begin DesktopLabel Label14
+      AllowAutoDeactivate=   True
+      Bold            =   True
+      Enabled         =   True
+      FontName        =   "Arial"
+      FontSize        =   16.0
+      FontUnit        =   0
+      Height          =   20
+      Index           =   -2147483648
+      Italic          =   False
+      Left            =   731
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Multiline       =   False
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   37
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "kWh"
+      TextAlignment   =   0
+      TextColor       =   &c000000
+      Tooltip         =   ""
+      Top             =   46
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   44
+   End
+   Begin DesktopLabel Label15
+      AllowAutoDeactivate=   True
+      Bold            =   True
+      Enabled         =   True
+      FontName        =   "Arial"
+      FontSize        =   16.0
+      FontUnit        =   0
+      Height          =   20
+      Index           =   -2147483648
+      Italic          =   False
+      Left            =   562
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Multiline       =   False
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   38
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "Balance"
+      TextAlignment   =   2
+      TextColor       =   &c000000
+      Tooltip         =   ""
+      Top             =   7
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   156
+   End
 End
 #tag EndDesktopWindow
 
@@ -1031,7 +1170,11 @@ End
 		  redNumbers.DigitBackColor = &cCC0000
 		  redNumbers.PrepareTemplate
 		  
-		  for each c as MeterCanvas in array(MeterFromNetworkTarif1, MeterFromNetworkTarif2, MeterToNetworkTarif1, MeterToNetworkTarif2, MeterCanvas4, MeterCanvas5)
+		  for each c as MeterCanvas in array( _
+		    MeterFromNetworkTarif1, MeterFromNetworkTarif2, MeterFromNetworkTotal  _
+		    , MeterToNetworkTarif1, MeterToNetworkTarif2, MeterToNetworkTotal _
+		    , MeterBalanceTarif1, MeterBalanceTarif2, MeterBalanceTotal _
+		    )
 		    c.Configure(blackNumbers, redNumbers, "00000.00")
 		    
 		  next
@@ -1109,7 +1252,9 @@ End
 		  
 		  CanvasLedCommStatus.SetLight(1)
 		  
-		  SaveData
+		  PrepareDataForStorage
+		  
+		  SaveStoredData
 		  
 		  UpdateUserInterface
 		  
@@ -1132,6 +1277,37 @@ End
 		  UpdateUserInterface
 		  
 		  Return
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub PrepareDataForStorage()
+		  var d as new Dictionary
+		  
+		  d.value("DateTime") = DateTime.Now.SQLDateTime
+		  d.value("PowerFromNetworkTarif1") = format(self.lastTelegram.GetCounterValue("1.8.1")*1000, "########0")
+		  d.value("PowerFromNetworkTarif2") = format(self.lastTelegram.GetCounterValue("1.8.2")*1000, "########0")
+		  
+		  d.value("PowerToNetworkTarif1") = format(self.lastTelegram.GetCounterValue("2.8.1")*1000, "########0")
+		  d.value("PowertoNetworkTarif2") =  format(self.lastTelegram.GetCounterValue("2.8.2")*1000, "########0")
+		  
+		  d.value("PowerFromNetworkPhase1") =  format(self.lastTelegram.GetCounterValue("21.7.0") *1000, "########0")
+		  d.value("PowerFromNetworkPhase2") =  format(self.lastTelegram.GetCounterValue("41.7.0") *1000, "########0")
+		  d.value("PowerFromNetworkPhase3") =  format(self.lastTelegram.GetCounterValue("61.7.0") *1000, "########0")
+		  
+		  d.value("PowerToNetworkPhase1") = format(self.lastTelegram.GetCounterValue("22.7.0")*1000, "########0")
+		  d.value("PowerToNetworkPhase2") = format(self.lastTelegram.GetCounterValue("42.7.0")*1000, "########0")
+		  d.value("PowerToNetworkPhase3") = format(self.lastTelegram.GetCounterValue("62.7.0")*1000, "########0")
+		  
+		  d.value("VoltagePhase1") = format(self.lastTelegram.GetCounterValue("32.7.0"),"000.0")
+		  d.value("VoltagePhase2") = format(self.lastTelegram.GetCounterValue("52.7.0"),"000.0")
+		  d.value("VoltagePhase3") = format(self.lastTelegram.GetCounterValue("72.7.0"),"000.0")
+		  
+		  d.value("Tarif") = self.lastTelegram.GetCounterRawValue("96.14.0")
+		  
+		  tempStore.Add(d)
+		  
+		  return
 		End Sub
 	#tag EndMethod
 
@@ -1198,7 +1374,7 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub SaveData()
+		Sub SaveStoredData()
 		  if self.lastTelegram = nil then Return
 		  
 		  if app.config.GetDBFilePath = nil then Return
@@ -1207,7 +1383,7 @@ End
 		  
 		  var h() as string
 		  var m() as string
-		  var d as new Dictionary
+		  
 		  
 		  h.Add("DateTime")
 		  h.Add("PowerFromNetworkTarif1")
@@ -1239,46 +1415,49 @@ End
 		  
 		  var tout as TextOutputStream
 		  
-		  if not f.Exists then
-		    tout = TextOutputStream.Create(f)
-		    tout.WriteLine(string.FromArray(h,chr(9)))
-		    tout.close
+		  try
+		    if not f.Exists then
+		      tout = TextOutputStream.Create(f)
+		      tout.WriteLine(string.FromArray(h,chr(9)))
+		      tout.close
+		      
+		    end if
 		    
-		  end if
-		  
-		  
-		  tout = TextOutputStream.Open(f)
-		  
-		  d.value("DateTime") = DateTime.Now.SQLDateTime
-		  d.value("PowerFromNetworkTarif1") = format(self.lastTelegram.GetCounterValue("1.8.1")*1000, "########0")
-		  d.value("PowerFromNetworkTarif2") = format(self.lastTelegram.GetCounterValue("1.8.2")*1000, "########0")
-		  
-		  d.value("PowerToNetworkTarif1") = format(self.lastTelegram.GetCounterValue("2.8.1")*1000, "########0")
-		  d.value("PowertoNetworkTarif2") =  format(self.lastTelegram.GetCounterValue("2.8.2")*1000, "########0")
-		  
-		  d.value("PowerFromNetworkPhase1") =  format(self.lastTelegram.GetCounterValue("21.7.0") *1000, "########0")
-		  d.value("PowerFromNetworkPhase2") =  format(self.lastTelegram.GetCounterValue("41.7.0") *1000, "########0")
-		  d.value("PowerFromNetworkPhase3") =  format(self.lastTelegram.GetCounterValue("61.7.0") *1000, "########0")
-		  
-		  d.value("PowerToNetworkPhase1") = format(self.lastTelegram.GetCounterValue("22.7.0")*1000, "########0")
-		  d.value("PowerToNetworkPhase2") = format(self.lastTelegram.GetCounterValue("42.7.0")*1000, "########0")
-		  d.value("PowerToNetworkPhase3") = format(self.lastTelegram.GetCounterValue("62.7.0")*1000, "########0")
-		  
-		  d.value("VoltagePhase1") = format(self.lastTelegram.GetCounterValue("32.7.0"),"000.0")
-		  d.value("VoltagePhase2") = format(self.lastTelegram.GetCounterValue("52.7.0"),"000.0")
-		  d.value("VoltagePhase3") = format(self.lastTelegram.GetCounterValue("72.7.0"),"000.0")
-		  
-		  d.value("Tarif") = self.lastTelegram.GetCounterRawValue("96.14.0")
-		  
-		  m.RemoveAll
-		  for each headeritem as string in h
-		    m.Add(d.value(headeritem))
+		  catch
+		    Return
 		    
-		  next
+		  end try
 		  
-		  tout.WriteLine(string.FromArray(m, chr(9))) 
-		  
-		  tout.close
+		  try
+		    
+		    while tempStore.Count > 0
+		      var d as Dictionary = tempStore(0)
+		      
+		      tout = TextOutputStream.Open(f)
+		      
+		      
+		      
+		      m.RemoveAll
+		      for each headeritem as string in h
+		        m.Add(d.value(headeritem))
+		        
+		      next
+		      
+		      tout.WriteLine(string.FromArray(m,chr(9)))
+		      
+		      tout.Flush
+		      
+		      tempStore.RemoveAt(0)
+		      
+		      tout.close
+		    wend
+		    
+		    
+		  catch e as IOException
+		    System.DebugLog("Cannot write to log file [" + e.Message + "]")
+		    
+		    
+		  end try
 		  
 		  return
 		  
@@ -1339,8 +1518,36 @@ End
 		  MeterToNetworkTarif1.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.1"))
 		  MeterToNetworkTarif2.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.2"))
 		  
-		  MeterCanvas4.UpdateNumber(self.lastTelegram.GetCounterValue("1.8.1") + self.lastTelegram.GetCounterValue("1.8.2")) 
-		  MeterCanvas5.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.1") + self.lastTelegram.GetCounterValue("2.8.2"))
+		  var temp1, temp2 as Double 
+		  temp1 = self.lastTelegram.GetCounterValue("1.8.1") - self.lastTelegram.GetCounterValue("2.8.1")
+		  temp2 = self.lastTelegram.GetCounterValue("1.8.2") - self.lastTelegram.GetCounterValue("2.8.2") 
+		  
+		  if temp1< 0 then 
+		    MeterBalanceTarif1.UpdateNumber(100000 + temp1)
+		  else
+		    MeterBalanceTarif1.UpdateNumber(temp1)
+		  end if
+		  
+		  if temp2< 0 then 
+		    MeterBalanceTarif2.UpdateNumber(1000000 + temp2)
+		    
+		  else
+		    MeterBalanceTarif2.UpdateNumber(temp2)
+		    
+		  end if
+		  
+		  if temp1 + temp2< 0 then 
+		    MeterBalanceTotal.UpdateNumber(1000000 +  temp1 + temp2)
+		    
+		  else
+		    MeterBalanceTotal.UpdateNumber(temp1 + temp2)
+		    
+		  end if
+		  
+		  
+		  
+		  MeterFromNetworkTotal.UpdateNumber(self.lastTelegram.GetCounterValue("1.8.1") + self.lastTelegram.GetCounterValue("1.8.2")) 
+		  MeterToNetworkTotal.UpdateNumber(self.lastTelegram.GetCounterValue("2.8.1") + self.lastTelegram.GetCounterValue("2.8.2"))
 		  
 		  // kWh taken from network
 		  tempScale = 1000 / app.config.powerMeterFromNetwork.Scale
@@ -1389,6 +1596,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private ResumePollingCountDown As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		tempStore() As Dictionary
 	#tag EndProperty
 
 
