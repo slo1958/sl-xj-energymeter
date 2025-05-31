@@ -23,7 +23,7 @@ Inherits DesktopApplication
 		    var f as FolderItem = SpecialFolder.Desktop
 		    
 		    var t as TextOutputStream = TextOutputStream.Open(f.Child("MeterTrackingLog.txt"))
-		    t.WriteLine(tmp+" "+Message)
+		    t.WriteLine(tmp+". "+Message)
 		    t.Close
 		    
 		    

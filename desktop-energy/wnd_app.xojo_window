@@ -11,7 +11,7 @@ Begin DesktopWindow wnd_app
    HasMaximizeButton=   True
    HasMinimizeButton=   True
    HasTitleBar     =   True
-   Height          =   600
+   Height          =   565
    ImplicitInstance=   True
    MacProcID       =   0
    MaximumHeight   =   32000
@@ -24,7 +24,7 @@ Begin DesktopWindow wnd_app
    Title           =   "Electricty Meter"
    Type            =   0
    Visible         =   True
-   Width           =   800
+   Width           =   795
    Begin Timer UpdateTimer
       Enabled         =   True
       Index           =   -2147483648
@@ -93,7 +93,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   35
       Index           =   -2147483648
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -118,7 +118,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   35
       Index           =   -2147483648
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -160,7 +160,7 @@ Begin DesktopWindow wnd_app
       TextAlignment   =   0
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   560
+      Top             =   523
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -205,7 +205,7 @@ Begin DesktopWindow wnd_app
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   206
+      Top             =   190
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -221,7 +221,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   55
       Index           =   -2147483648
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -240,7 +240,7 @@ Begin DesktopWindow wnd_app
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   206
+      Top             =   190
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -256,7 +256,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   55
       Index           =   -2147483648
-      Left            =   570
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -275,7 +275,7 @@ Begin DesktopWindow wnd_app
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   206
+      Top             =   190
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -290,7 +290,7 @@ Begin DesktopWindow wnd_app
       Height          =   20
       Index           =   -2147483648
       Italic          =   False
-      Left            =   293
+      Left            =   290
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -322,7 +322,7 @@ Begin DesktopWindow wnd_app
       Height          =   20
       Index           =   -2147483648
       Italic          =   False
-      Left            =   511
+      Left            =   500
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -386,7 +386,7 @@ Begin DesktopWindow wnd_app
       Height          =   20
       Index           =   -2147483648
       Italic          =   False
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -434,7 +434,7 @@ Begin DesktopWindow wnd_app
       TextAlignment   =   1
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   218
+      Top             =   209
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -466,7 +466,7 @@ Begin DesktopWindow wnd_app
       TextAlignment   =   2
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   174
+      Top             =   165
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -482,7 +482,7 @@ Begin DesktopWindow wnd_app
       Height          =   20
       Index           =   -2147483648
       Italic          =   False
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -498,7 +498,7 @@ Begin DesktopWindow wnd_app
       TextAlignment   =   2
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   174
+      Top             =   165
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -514,7 +514,7 @@ Begin DesktopWindow wnd_app
       Height          =   20
       Index           =   -2147483648
       Italic          =   False
-      Left            =   570
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -530,7 +530,7 @@ Begin DesktopWindow wnd_app
       TextAlignment   =   2
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   174
+      Top             =   165
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -558,7 +558,7 @@ Begin DesktopWindow wnd_app
       TabStop         =   True
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   348
+      Top             =   310
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -572,7 +572,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   200
       Index           =   -2147483648
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -585,7 +585,7 @@ Begin DesktopWindow wnd_app
       TabStop         =   True
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   348
+      Top             =   310
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -599,7 +599,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   200
       Index           =   -2147483648
-      Left            =   570
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -612,7 +612,7 @@ Begin DesktopWindow wnd_app
       TabStop         =   True
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   348
+      Top             =   310
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -651,7 +651,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   35
       Index           =   -2147483648
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -729,7 +729,7 @@ Begin DesktopWindow wnd_app
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   273
+      Top             =   250
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -745,7 +745,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   55
       Index           =   -2147483648
-      Left            =   350
+      Left            =   340
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -764,7 +764,7 @@ Begin DesktopWindow wnd_app
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   273
+      Top             =   250
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -780,7 +780,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   55
       Index           =   -2147483648
-      Left            =   570
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -799,7 +799,7 @@ Begin DesktopWindow wnd_app
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   273
+      Top             =   250
       Transparent     =   False
       Visible         =   True
       Width           =   200
@@ -830,7 +830,7 @@ Begin DesktopWindow wnd_app
       TextAlignment   =   1
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   290
+      Top             =   266
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -981,7 +981,7 @@ Begin DesktopWindow wnd_app
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   560
+      Top             =   523
       Transparent     =   False
       Visible         =   True
       Width           =   17
@@ -1012,7 +1012,7 @@ Begin DesktopWindow wnd_app
       TextAlignment   =   0
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   560
+      Top             =   523
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -1027,7 +1027,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   35
       Index           =   -2147483648
-      Left            =   570
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -1052,7 +1052,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   35
       Index           =   -2147483648
-      Left            =   570
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -1077,7 +1077,7 @@ Begin DesktopWindow wnd_app
       Enabled         =   True
       Height          =   35
       Index           =   -2147483648
-      Left            =   570
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -1103,7 +1103,7 @@ Begin DesktopWindow wnd_app
       Height          =   20
       Index           =   -2147483648
       Italic          =   False
-      Left            =   731
+      Left            =   710
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -1135,7 +1135,7 @@ Begin DesktopWindow wnd_app
       Height          =   20
       Index           =   -2147483648
       Italic          =   False
-      Left            =   562
+      Left            =   550
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -1471,6 +1471,8 @@ End
 		    UpdateTimer.RunMode = Timer.RunModes.Off
 		    self.lbl_message.text = self.lastError
 		    
+		    app.WriteMessageToLog("Suspend source polling.")
+		    
 		    IssueCount = IssueCount + 1
 		    
 		    ResumePollingTimer.Period = (app.config.GetResumePollingDelaySeconds - app.config.GetResumePollingDelayMinimum + 1 ) *1000
@@ -1478,6 +1480,10 @@ End
 		    ResumePollingCountDown = app.config.GetResumePollingDelayMinimum -1
 		    
 		    ResumePollingTimer.RunMode = timer.RunModes.Single
+		    
+		    
+		    app.WriteMessageToLog("Start resume polling timer.")
+		    
 		    
 		    Return
 		    
@@ -1522,27 +1528,27 @@ End
 		  temp1 = self.lastTelegram.GetCounterValue("1.8.1") - self.lastTelegram.GetCounterValue("2.8.1")
 		  temp2 = self.lastTelegram.GetCounterValue("1.8.2") - self.lastTelegram.GetCounterValue("2.8.2") 
 		  
-		  if temp1< 0 then 
-		    MeterBalanceTarif1.UpdateNumber(100000 + temp1)
-		  else
-		    MeterBalanceTarif1.UpdateNumber(temp1)
-		  end if
+		  // if temp1< 0 then 
+		  // MeterBalanceTarif1.UpdateNumber(100000 + temp1)
+		  // else
+		  MeterBalanceTarif1.UpdateNumber(temp1)
+		  //end if
+		  // 
+		  // if temp2< 0 then 
+		  // MeterBalanceTarif2.UpdateNumber(100000 + temp2)
+		  // 
+		  // else
+		  MeterBalanceTarif2.UpdateNumber(temp2)
+		  // 
+		  // end if
+		  // 
+		  // if temp1 + temp2< 0 then 
+		  //MeterBalanceTotal.UpdateNumber(100000 +  temp1 + temp2)
 		  
-		  if temp2< 0 then 
-		    MeterBalanceTarif2.UpdateNumber(1000000 + temp2)
-		    
-		  else
-		    MeterBalanceTarif2.UpdateNumber(temp2)
-		    
-		  end if
-		  
-		  if temp1 + temp2< 0 then 
-		    MeterBalanceTotal.UpdateNumber(1000000 +  temp1 + temp2)
-		    
-		  else
-		    MeterBalanceTotal.UpdateNumber(temp1 + temp2)
-		    
-		  end if
+		  // else
+		  MeterBalanceTotal.UpdateNumber(temp1 + temp2)
+		  // 
+		  // end if
 		  
 		  
 		  
@@ -1672,6 +1678,10 @@ End
 		    CanvasLedCommStatus.SetLight(1)
 		    ResumePollingTimer.RunMode = timer.RunModes.off
 		    lbl_message.Text = "Polling process restarted."
+		    
+		    
+		    app.WriteMessageToLog("Restart polling.")
+		    
 		    
 		    ResetRefreshProcess
 		    

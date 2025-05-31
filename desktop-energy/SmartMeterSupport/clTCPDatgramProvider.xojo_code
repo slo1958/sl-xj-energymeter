@@ -8,6 +8,7 @@ Inherits clDatagramProvider
 		  self.URL = DatagramSourceURL
 		  self.Port = DatagramSourcePort
 		  
+		  self.MyRequestStatus = StatusIdle
 		  
 		  if requestTimeOut < 5 then 
 		    self.timeout = 10
@@ -17,10 +18,10 @@ Inherits clDatagramProvider
 		    
 		  end if
 		  
-		  self.Socket = new TCPSocket()
+		  self.Socket = Nil
 		  
-		  AddHandler self.Socket.DataAvailable, Addressof SocketDataAvailable
-		  AddHandler socket.Error, AddressOf SocketErrorReceived
+		  SwapSocket
+		  
 		  
 		  return
 		  
@@ -77,7 +78,7 @@ Inherits clDatagramProvider
 		      
 		      var e as new RuntimeException
 		      e.ErrorNumber = 999
-		      e.Message = "TimeOut"
+		      e.Message = "TimeOut on connection"
 		      
 		      DoErrorReceived(e)
 		      
@@ -89,7 +90,7 @@ Inherits clDatagramProvider
 		    if self.RequestCountWhileBusy > 3 then
 		      var e as new RuntimeException
 		      e.ErrorNumber = 999
-		      e.Message = "TimeOut"
+		      e.Message = "TimeOut on request"
 		      
 		      DoErrorReceived(e)
 		      
@@ -119,9 +120,21 @@ Inherits clDatagramProvider
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function RequestStatus() As integer
+		  // Calling the overridden superclass method.
+		  
+		  return self.MyRequestStatus
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Reset()
 		  // Calling the overridden superclass method.
+		  
 		  Super.Reset()
+		  
+		  SwapSocket
 		  
 		  self.MyRequestStatus = StatusIdle
 		  
@@ -188,6 +201,31 @@ Inherits clDatagramProvider
 		  end if
 		  
 		  return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub SwapSocket()
+		  
+		  
+		  if self.socket <> nil then
+		    
+		    RemoveHandler self.Socket.DataAvailable, Addressof SocketDataAvailable
+		    RemoveHandler socket.Error, AddressOf SocketErrorReceived
+		    
+		    if self.Socket.IsConnected then self.socket.Disconnect
+		    
+		    self.socket.Close
+		    
+		    self.Socket = nil
+		    
+		  end if
+		  
+		  self.Socket = new TCPSocket()
+		  
+		  AddHandler self.Socket.DataAvailable, Addressof SocketDataAvailable
+		  AddHandler socket.Error, AddressOf SocketErrorReceived
 		  
 		End Sub
 	#tag EndMethod
@@ -282,6 +320,14 @@ Inherits clDatagramProvider
 			InitialValue=""
 			Type="string"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="RequestCountWhileBusy"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

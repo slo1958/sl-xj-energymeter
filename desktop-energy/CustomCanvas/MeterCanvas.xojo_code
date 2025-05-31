@@ -265,8 +265,8 @@ Implements itfAnimate
 		    NumberScaleFactor = 10 ^ CountDecimalDigits
 		    
 		  end if
-		  
-		  
+		   
+		  NumberMaxDisplayValue = 10 ^ CountMainDigits
 		  DigitsVerticalOffset.ResizeTo(CountMainDigits + CountDecimalDigits - 1)
 		  
 		  for i as integer = 0 to DigitsVerticalOffset.LastIndex
@@ -303,22 +303,28 @@ Implements itfAnimate
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub UpdateNumber(d as Double)
+		Sub UpdateNumber(newNumber as Double)
 		  
 		  
 		  if MainDigitTemplate = nil then Return
 		  if decimalDigitTemplate = nil then Return
 		  
-		  self.TargetNumber = round(d*NumberScaleFactor)/NumberScaleFactor
+		  self.TargetNumber = round(newNumber*NumberScaleFactor)/NumberScaleFactor
 		  
+		  if self.TargetNumber < 0 then 
+		    self.TargetNumber = self.TargetNumber + self.NumberMaxDisplayValue
+		    
+		  end if
 		  // if current (displayed) number is zero, we jump to the target
 		  // otherwise, we calculate the number of pixel shifts we need
 		  // Update period tells us how many second before next update
 		  // 
 		  
 		  
+		  
 		  if self.DisplayedNumber <= 0 then 
-		    var tmp as string = format(d, NumberFormat).Replace(",","").Replace(".","")
+		    var tmp as string = format(self.TargetNumber, NumberFormat).Replace(",","").Replace(".","")
+		    //var tmp as string = format(d, NumberFormat).Replace(",","").Replace(".","")
 		    var index as integer = DigitsVerticalOffset.LastIndex
 		    
 		    for each s as string in tmp.Characters
@@ -377,6 +383,10 @@ Implements itfAnimate
 
 	#tag Property, Flags = &h21
 		Private NumberFormat As string
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private NumberMaxDisplayValue As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
