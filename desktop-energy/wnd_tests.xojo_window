@@ -11,7 +11,7 @@ Begin DesktopWindow wnd_tests
    HasMaximizeButton=   True
    HasMinimizeButton=   True
    HasTitleBar     =   True
-   Height          =   472
+   Height          =   596
    ImplicitInstance=   True
    MacProcID       =   0
    MaximumHeight   =   32000
@@ -179,6 +179,7 @@ Begin DesktopWindow wnd_tests
       TabIndex        =   4
       TabPanelIndex   =   0
       TabStop         =   True
+      TickLabelFormat =   ""
       Tooltip         =   ""
       Top             =   56
       Transparent     =   True
@@ -198,7 +199,7 @@ Begin DesktopWindow wnd_tests
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
-      MaximumValue    =   275
+      MaximumValue    =   75
       MinimumValue    =   0
       PageStep        =   3
       Scope           =   0
@@ -207,9 +208,9 @@ Begin DesktopWindow wnd_tests
       TabStop         =   True
       TickMarkStyle   =   0
       Tooltip         =   ""
-      Top             =   332
+      Top             =   496
       Transparent     =   False
-      Value           =   235
+      Value           =   0
       Visible         =   True
       Width           =   287
    End
@@ -224,7 +225,7 @@ Begin DesktopWindow wnd_tests
       Enabled         =   True
       Height          =   53
       Index           =   -2147483648
-      Left            =   58
+      Left            =   514
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -243,7 +244,7 @@ Begin DesktopWindow wnd_tests
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   324
+      Top             =   335
       Transparent     =   False
       Visible         =   True
       Width           =   346
@@ -259,7 +260,7 @@ Begin DesktopWindow wnd_tests
       Enabled         =   True
       Height          =   53
       Index           =   -2147483648
-      Left            =   58
+      Left            =   514
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -278,10 +279,42 @@ Begin DesktopWindow wnd_tests
       TargetValue     =   0.0
       TickLabelFormat =   ""
       Tooltip         =   ""
-      Top             =   399
+      Top             =   410
       Transparent     =   False
       Visible         =   True
       Width           =   346
+   End
+   Begin DesktopLabel Label1
+      AllowAutoDeactivate=   True
+      Bold            =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   20
+      Index           =   -2147483648
+      Italic          =   False
+      Left            =   58
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Multiline       =   False
+      Scope           =   2
+      Selectable      =   False
+      TabIndex        =   8
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "Untitled"
+      TextAlignment   =   0
+      TextColor       =   &c000000
+      Tooltip         =   ""
+      Top             =   324
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   100
    End
 End
 #tag EndDesktopWindow
@@ -313,7 +346,7 @@ End
 		  
 		  
 		  canvas3.SetMeterLabels("Wh","~")
-		  var c as clMeterConfig
+		  var c as new clMeterConfig("alpha")
 		  c.Minimum = 200
 		  c.Maximum = 275
 		  c.MinorTicks= 25
@@ -427,6 +460,8 @@ End
 		  
 		  TimerAnimate.RunMode = timer.RunModes.Multiple
 		  
+		  Label1.Text = format(d, "#####0.00")
+		  
 		  canvas1.UpdateNumber(d)
 		  
 		  return
@@ -438,9 +473,9 @@ End
 	#tag Event
 		Sub ValueChanged()
 		  
-		  canvas2.SetValue(me.Value)
-		  canvas3.SetValue(me.Value)
-		  canvas4.SetValue(me.Value)
+		  canvas2.SetValue(me.Value + 200)
+		  canvas3.SetValue(me.Value + 200)
+		  canvas4.SetValue(me.Value + 200)
 		  
 		  TimerAnimate.RunMode = timer.RunModes.Multiple
 		  

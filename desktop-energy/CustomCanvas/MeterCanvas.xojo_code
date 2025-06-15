@@ -75,11 +75,26 @@ Implements itfAnimate
 	#tag Method, Flags = &h0
 		Sub Animate()
 		  // 
-		  
+		  var pixelStep as double = self.PixelUpdateEachAnimate 
 		  var tempDisplayedNumber as double = self.DisplayedNumber
 		  
-		  if abs(tempDisplayedNumber - self.TargetNumber) < 0.001  then
+		  
+		  if self.PixelUpdateEachAnimate <= 0 then // Display number without animation
+		    PixelVerticalOffset = 0
 		    self.CounterDirection = 0
+		    self.Refresh(False)
+		    return
+		    
+		  elseif self.CounterDirection > 0 and tempDisplayedNumber >= self.TargetNumber then
+		    PixelVerticalOffset = 0
+		    self.CounterDirection = 0
+		    self.Refresh(False)
+		    return
+		    
+		  elseif self.CounterDirection < 0 and tempDisplayedNumber <= self.TargetNumber then
+		    PixelVerticalOffset = 0
+		    self.CounterDirection = 0
+		    self.Refresh(False)
 		    return
 		    
 		  end if
@@ -89,14 +104,13 @@ Implements itfAnimate
 		  
 		  var doneUpdateDigits as boolean 
 		  var digitIndex as integer  
-		  var pixelStep as double = self.PixelUpdateEachAnimate 
 		  
-		  if  self.CounterDirection > 0 then // should increase
+		  
+		  if  self.CounterDirection > 0 then //  Increase the displayed number to reach target
 		    
-		    if totalVerticalOffset(0) >= MainDigitTemplate.DigitHeight * 10 - 1 then // - 5 then # 2025-05-17
+		    if totalVerticalOffset(0) >= MainDigitTemplate.DigitHeight * 10 - 1 then //  we are displaying the last zero, so we need to circle back to the first zero
 		      PixelVerticalOffset = totalVerticalOffset(0) - MainDigitTemplate.DigitHeight * 10 + pixelStep
 		      DigitsVerticalOffset(0) = 0
-		      
 		      
 		      doneUpdateDigits = False
 		      digitIndex = 1
@@ -116,9 +130,9 @@ Implements itfAnimate
 		        
 		      wend
 		      
-		    elseif PixelVerticalOffset + pixelStep >= MainDigitTemplate.DigitHeight then 
+		    elseif PixelVerticalOffset + pixelStep >= MainDigitTemplate.DigitHeight then // we have the digit fully on display, so upate the digit and reset the offset
 		      DigitsVerticalOffset(0) = DigitsVerticalOffset(0) + 1
-		      PixelVerticalOffset = 0 
+		      PixelVerticalOffset = PixelVerticalOffset + pixelStep - MainDigitTemplate.DigitHeight  // 0 
 		      
 		      
 		    else
@@ -126,7 +140,7 @@ Implements itfAnimate
 		      
 		    end if
 		    
-		  elseif self.CounterDirection < 0 then
+		  elseif self.CounterDirection < 0 then // Decrease the displayed numner to reach target
 		    
 		    if PixelVerticalOffset - pixelStep < 0 then
 		      DigitsVerticalOffset(0) = DigitsVerticalOffset(0) - 1
@@ -140,8 +154,10 @@ Implements itfAnimate
 		        while not doneUpdateDigits and digitIndex < DigitsVerticalOffset.LastIndex
 		          DigitsVerticalOffset(digitIndex) = DigitsVerticalOffset(digitIndex) - 1
 		          
-		          
-		          if DigitsVerticalOffset(digitIndex) = 0 then
+		          if DigitsVerticalOffset(digitIndex) < 0 then
+		            DigitsVerticalOffset(digitIndex) = 9
+		            
+		          elseif DigitsVerticalOffset(digitIndex) = 0 then
 		            DigitsVerticalOffset(digitIndex) = 10
 		            
 		            doneUpdateDigits = True
@@ -168,10 +184,6 @@ Implements itfAnimate
 		  end if
 		  
 		  
-		  if self.PixelUpdateEachAnimate <= 0 then // Display number without animation
-		    
-		    Return
-		  end if
 		  
 		  Return
 		  
@@ -199,6 +211,19 @@ Implements itfAnimate
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Function DigitVerticalOffsetNumber(index as integer) As integer
+		  if self.DigitsVerticalOffset(index) < 10 then
+		    return self.DigitsVerticalOffset(index)
+		    
+		  else
+		    return 0
+		    
+		  end if
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function DisplayedNumber() As double
 		  
@@ -210,21 +235,22 @@ Implements itfAnimate
 		  
 		  
 		  if self.CounterDirection > 0 then
-		    temp = DigitsVerticalOffset(0) 
+		    temp = DigitVerticalOffsetNumber(0) 
 		    
 		  elseif self.CounterDirection < 0 then
+		    // temp = DigitVerticalOffsetNumber(0) 
 		    
-		    if PixelVerticalOffset < 2 then
-		      temp = DigitsVerticalOffset(0) 
+		    if PixelVerticalOffset < 2 then 
+		      temp = DigitVerticalOffsetNumber(0) 
 		      
 		    else
-		      temp = DigitsVerticalOffset(0) + 1
+		      temp = DigitVerticalOffsetNumber(0) + 1
 		      
 		    end if
 		    
 		    
 		  else
-		    temp = DigitsVerticalOffset(0) 
+		    temp = DigitVerticalOffsetNumber(0) 
 		    
 		  end if
 		  
@@ -232,7 +258,7 @@ Implements itfAnimate
 		  
 		  for i as integer = 1 to DigitsVerticalOffset.LastIndex
 		    tempscale = tempscale * 10
-		    temp = temp + DigitsVerticalOffset(i) * tempscale
+		    temp = temp + DigitVerticalOffsetNumber(i) * tempscale
 		    
 		  next 
 		  
@@ -265,7 +291,7 @@ Implements itfAnimate
 		    NumberScaleFactor = 10 ^ CountDecimalDigits
 		    
 		  end if
-		   
+		  
 		  NumberMaxDisplayValue = 10 ^ CountMainDigits
 		  DigitsVerticalOffset.ResizeTo(CountMainDigits + CountDecimalDigits - 1)
 		  
@@ -315,16 +341,16 @@ Implements itfAnimate
 		    self.TargetNumber = self.TargetNumber + self.NumberMaxDisplayValue
 		    
 		  end if
-		  // if current (displayed) number is zero, we jump to the target
-		  // otherwise, we calculate the number of pixel shifts we need
-		  // Update period tells us how many second before next update
-		  // 
 		  
 		  
+		  //
+		  // Current displayed number is zero, first time the UpdateNumber method is called. 
+		  // We jump to the target number 
+		  //
 		  
 		  if self.DisplayedNumber <= 0 then 
 		    var tmp as string = format(self.TargetNumber, NumberFormat).Replace(",","").Replace(".","")
-		    //var tmp as string = format(d, NumberFormat).Replace(",","").Replace(".","")
+		    
 		    var index as integer = DigitsVerticalOffset.LastIndex
 		    
 		    for each s as string in tmp.Characters
@@ -341,6 +367,12 @@ Implements itfAnimate
 		    Return
 		    
 		  end if
+		  
+		  // 
+		  // This is an update of the displayed number
+		  // We calculate the number of pixel shifts we need
+		  // Update period tells us how many second before next update
+		  // 
 		  
 		  var totalPixelShifts as Double = (self.TargetNumber - self.DisplayedNumber) * NumberScaleFactor * MainDigitTemplate.DigitHeight
 		  
@@ -398,6 +430,13 @@ Implements itfAnimate
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		#tag Note
+			Vertical offset, in pixels, for the last digit.
+			
+			Note that when we advance digit(s) before the last (more significant digit(s)), all digits more in sync
+			
+			When PixelVerticalOffset is close the the height of a digit when incrementing (close to zero when decrementing), we switch to the next (previous) digit and adjust the vertical offset.
+		#tag EndNote
 		Private PixelVerticalOffset As Double
 	#tag EndProperty
 
